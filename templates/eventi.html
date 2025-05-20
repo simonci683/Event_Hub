@@ -1,0 +1,65 @@
+<<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Eventi - Event Hub</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .event-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .evento {
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-start;
+            background: #fff;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+        .evento-info {
+            text-align: right;
+            min-width: 250px;
+        }
+        .evento-nome {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+        }
+        .evento-luogo {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .evento-descrizione {
+            flex: 1;
+            margin-right: 30px;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+    <h1>Eventi</h1>
+    <div class="event-list">
+        {% for evento in eventi %}
+        <div class="evento">
+            <div class="evento-descrizione">
+                {{ evento.descrizione }}
+            </div>
+            <div class="evento-info">
+                <div class="evento-nome">{{ evento.nome }}</div>
+                <div class="evento-luogo">{{ evento.luogo }}</div>
+            </div>
+        </div>
+        {% empty %}
+        <p>Nessun evento disponibile.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
