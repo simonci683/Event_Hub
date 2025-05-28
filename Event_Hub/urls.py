@@ -22,6 +22,7 @@ from .views import lista_eventi
 
 urlpatterns = [
     #path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('', lambda request: redirect('benvenuto'), name='home'),
     path('benvenuto/', benvenuto, name='benvenuto'),
     path('Registrati/', registrati, name='Registrati'),

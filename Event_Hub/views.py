@@ -45,5 +45,35 @@ def benvenuto(request):
     return render(request, 'Benvenuto.html')
 
 def lista_eventi(request):
-    eventi = Evento.objects.all()
+    eventi = Evento.objects.all().order_by('nome')
     return render(request, 'eventi.html', {'eventi': eventi})
+
+def carrello(request):
+    if request.method == 'POST':
+        evento_nome = request.POST.get('evento_nome')
+        numero_biglietti = int(request.POST.get('numero_biglietti', 1))
+        utente_email = request.session.get('utente_email')
+
+        if not utente_email:
+            return redirect('login')
+
+        try:
+            utente = Utente.objects.get(email=utente_email)
+            evento = Evento.objects.get(nome=evento_nome)
+
+            # Check if the user already has a cart for this event
+            existing_cart = carrello.objects.filter(utente=utente, evento=evento).first()
+            if existing_cart:
+                existing_cart.numero_biglietti += numero_biglietti
+                existing_cart.save()
+            else:
+                carrello.objects.create(
+                    utente=utente,
+                    evento=evento,
+                    numero_biglietti=numero_biglietti
+                )
+            return redirect('eventi')
+        except (Utente.DoesNotExist, Evento.DoesNotExist):
+            return render(request, 'error.html', {'message': 'Evento o utente non trovato.'})
+
+    return render(request, 'carrello.html')

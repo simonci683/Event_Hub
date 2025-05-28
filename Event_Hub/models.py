@@ -38,3 +38,12 @@ class Recensione(models.Model):
     commento = models.TextField()
     data_recensione = models.DateField(auto_now_add=True)
 
+class carrello(models.Model):
+    id = models.AutoField(primary_key=True)
+    utente = models.ForeignKey(Utente, on_delete=models.CASCADE)
+    evento = models.ForeignKey(Evento, on_delete=models.CASCADE)
+    numero_biglietti = models.IntegerField()
+    data_aggiunta = models.DateField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('utente', 'evento')  # Un utente può avere un solo carrello per evento
