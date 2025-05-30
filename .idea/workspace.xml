@@ -4,12 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4e40c385-dc8a-4a20-b4fb-b3b4a946f749" name="Changes" comment="primo commit">
-      <change afterPath="$PROJECT_DIR$/Event_Hub/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a383b00c-b772-4b42-98ec-74b484414b62.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a383b00c-b772-4b42-98ec-74b484414b62/storage_v2/_src_/schema/main.uQUzAA.meta" beforeDir="false" />
+    <list default="true" id="4e40c385-dc8a-4a20-b4fb-b3b4a946f749" name="Changes" comment="terzo commit">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a1f417cb-4f27-400a-bfd9-c9aa47ababcd.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a1f417cb-4f27-400a-bfd9-c9aa47ababcd/storage_v2/_src_/schema/main.uQUzAA.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Event_Hub/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Event_Hub/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event_Hub/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Event_Hub/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Event_Hub/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Event_Hub/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Event_Hub/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Event_Hub/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
@@ -128,7 +130,9 @@
       <workItem from="1747746721760" duration="4220000" />
       <workItem from="1747751699495" duration="4185000" />
       <workItem from="1747847872884" duration="5846000" />
-      <workItem from="1748352141662" duration="9042000" />
+      <workItem from="1748352141662" duration="9360000" />
+      <workItem from="1748441429003" duration="12359000" />
+      <workItem from="1748602602334" duration="8638000" />
     </task>
     <task id="LOCAL-00001" summary="primo commit">
       <option name="closed" value="true" />
@@ -146,7 +150,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747755763236</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="terzo commit">
+      <option name="closed" value="true" />
+      <created>1748441263025</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1748441263025</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -154,6 +166,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="primo commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="primo commit" />
+    <MESSAGE value="terzo commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="terzo commit" />
   </component>
 </project>

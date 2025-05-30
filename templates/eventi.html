@@ -49,6 +49,41 @@
             padding: 18px 20px;
             line-height: 1.7;
             box-shadow: 0 1px 4px rgba(45,108,223,0.04);
+            margin-bottom: 15px;
+        }
+        .evento-prezzo {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2d6cdf;
+            margin-bottom: 10px;
+        }
+        .aggiungi-carrello {
+            display: inline-block;
+            background-color: #2d6cdf;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+        }
+        .aggiungi-carrello:hover {
+            background-color: #1a3a6b;
+        }
+        .salva-evento {
+            display: inline-block;
+            background-color: #f0f0f0;
+            color: #1a3a6b;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            border: 1px solid #2d6cdf;
+        }
+        .salva-evento:hover {
+            background-color: #e0eaff;
         }
         .no-eventi {
             text-align: center;
@@ -59,13 +94,33 @@
     </style>
 </head>
 <body>
+    <div class="nav-menu" style="display: flex; justify-content: center; background-color: #2d6cdf; padding: 15px 0; margin-bottom: 30px;">
+        <a href="{% url 'eventi' %}" style="color: white; text-decoration: none; padding: 10px 20px; margin: 0 5px; border-radius: 5px; transition: background-color 0.2s; background-color: #1a3a6b;">Eventi</a>
+        <a href="{% url 'carrello' %}" style="color: white; text-decoration: none; padding: 10px 20px; margin: 0 5px; border-radius: 5px; transition: background-color 0.2s;">Carrello</a>
+        <a href="{% url 'area_personale' %}" style="color: white; text-decoration: none; padding: 10px 20px; margin: 0 5px; border-radius: 5px; transition: background-color 0.2s;">Area Personale</a>
+    </div>
+
     <div class="container">
         <h1>Eventi</h1>
         {% for evento in eventi %}
         <div class="evento">
             <div class="evento-nome">{{ evento.nome }}</div>
-            <div class="evento-descrizione">{{ evento.descrizione|linebreaksbr }}
+            <div class="evento-descrizione">{{ evento.descrizione|linebreaksbr }}</div>
+            <div class="evento-prezzo">Prezzo: €{{ evento.prezzo }}</div>
+            <div class="evento-actions">
+                <form action="{% url 'aggiungi_al_carrello' %}" method="post" style="display: inline-block; margin-right: 10px;">
+                    {% csrf_token %}
+                    <input type="hidden" name="evento_nome" value="{{ evento.nome }}">
+                    <input type="hidden" name="numero_biglietti" value="1">
+                    <button type="submit" class="aggiungi-carrello">Aggiungi al carrello - €{{ evento.prezzo }}</button>
+                </form>
+                <form action="{% url 'salva_evento' %}" method="post" style="display: inline-block;">
+                    {% csrf_token %}
+                    <input type="hidden" name="evento_nome" value="{{ evento.nome }}">
+                    <button type="submit" class="salva-evento">Salva nei preferiti</button>
+                </form>
             </div>
+        </div>
         {% empty %}
         <div class="no-eventi">Nessun evento disponibile al momento.</div>
         {% endfor %}
