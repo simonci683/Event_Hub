@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Le Tue Recensioni - Event Hub</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            padding: 30px 40px;
+        }
+        h1 {
+            text-align: center;
+            color: #2d6cdf;
+            font-size: 2.7em;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+            text-shadow: 1px 2px 8px #e0eaff;
+        }
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            background-color: #2d6cdf;
+            padding: 15px 0;
+            margin-bottom: 30px;
+        }
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+        .nav-menu a:hover, .nav-menu a.active {
+            background-color: #1a3a6b;
+        }
+        .sub-nav {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .sub-nav a {
+            color: #2d6cdf;
+            text-decoration: none;
+            padding: 8px 15px;
+            margin: 0 5px;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+            border: 1px solid #2d6cdf;
+        }
+        .sub-nav a:hover, .sub-nav a.active {
+            background-color: #2d6cdf;
+            color: white;
+        }
+        .review-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        .review-section {
+            background: #f9fbff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .review-section h2 {
+            color: #1a3a6b;
+            font-size: 1.5em;
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            border-color: #2d6cdf;
+            outline: none;
+            box-shadow: 0 0 5px rgba(45,108,223,0.3);
+        }
+        .form-button {
+            background-color: #2d6cdf;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .form-button:hover {
+            background-color: #1a3a6b;
+        }
+        .review-list {
+            margin-top: 20px;
+        }
+        .review-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+        }
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .review-title {
+            font-weight: bold;
+            color: #1a3a6b;
+        }
+        .review-date {
+            color: #888;
+            font-size: 0.9em;
+        }
+        .review-rating {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        .star {
+            color: #ffc107;
+            margin-right: 2px;
+        }
+        .review-comment {
+            color: #555;
+            line-height: 1.5;
+        }
+        .review-actions {
+            margin-top: 10px;
+            text-align: right;
+        }
+        .review-button {
+            background-color: #f0f0f0;
+            color: #333;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            font-size: 0.9em;
+            cursor: pointer;
+        }
+        .review-button:hover {
+            background-color: #e0e0e0;
+        }
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .empty-state {
+            text-align: center;
+            color: #888;
+            padding: 20px;
+            font-style: italic;
+        }
+        .rating-input {
+            display: flex;
+            align-items: center;
+        }
+        .rating-input input[type="radio"] {
+            display: none;
+        }
+        .rating-input label {
+            cursor: pointer;
+            font-size: 1.5em;
+            color: #ddd;
+            margin-right: 5px;
+        }
+        .rating-input label:hover,
+        .rating-input label:hover ~ label,
+        .rating-input input[type="radio"]:checked ~ label {
+            color: #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-menu">
+        <a href="{% url 'eventi' %}">Eventi</a>
+        <a href="{% url 'carrello' %}">Carrello</a>
+        <a href="{% url 'area_personale' %}" class="active">Area Personale</a>
+    </div>
+
+    <div class="container">
+        <h1>Le Tue Recensioni</h1>
+        
+        <div class="sub-nav">
+            <a href="{% url 'area_personale' %}">Dashboard</a>
+            <a href="{% url 'biglietti' %}">Biglietti</a>
+            <a href="{% url 'profilo' %}">Profilo</a>
+            <a href="{% url 'storico_acquisti' %}">Storico Acquisti</a>
+            <a href="{% url 'recensioni' %}" class="active">Recensioni</a>
+            <a href="{% url 'eventi_salvati' %}">Eventi Salvati</a>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-error{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="review-grid">
+            <div class="review-section">
+                <h2>Scrivi una Recensione</h2>
+                
+                {% if eventi_passati %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label class="form-label" for="evento_nome">Evento</label>
+                            <select id="evento_nome" name="evento_nome" class="form-select" required>
+                                <option value="">Seleziona un evento</option>
+                                {% for prenotazione in eventi_passati %}
+                                    <option value="{{ prenotazione.evento.nome }}">{{ prenotazione.evento.nome }} ({{ prenotazione.evento.data }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Valutazione</label>
+                            <div class="rating-input">
+                                <input type="radio" id="star5" name="valutazione" value="5" required>
+                                <label for="star5">★</label>
+                                <input type="radio" id="star4" name="valutazione" value="4">
+                                <label for="star4">★</label>
+                                <input type="radio" id="star3" name="valutazione" value="3">
+                                <label for="star3">★</label>
+                                <input type="radio" id="star2" name="valutazione" value="2">
+                                <label for="star2">★</label>
+                                <input type="radio" id="star1" name="valutazione" value="1">
+                                <label for="star1">★</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="commento">Commento</label>
+                            <textarea id="commento" name="commento" class="form-textarea" required></textarea>
+                        </div>
+                        <button type="submit" class="form-button">Invia Recensione</button>
+                    </form>
+                {% else %}
+                    <div class="empty-state">
+                        Non hai eventi passati da recensire. Partecipa a un evento per poter lasciare una recensione.
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="review-section">
+                <h2>Le Tue Recensioni</h2>
+                
+                <div class="review-list">
+                    {% if recensioni %}
+                        {% for recensione in recensioni %}
+                            <div class="review-card">
+                                <div class="review-header">
+                                    <div class="review-title">{{ recensione.evento.nome }}</div>
+                                    <div class="review-date">{{ recensione.data_recensione }}</div>
+                                </div>
+                                <div class="review-rating">
+                                    {% for i in "12345" %}
+                                        {% if forloop.counter <= recensione.valutazione %}
+                                            <span class="star">★</span>
+                                        {% else %}
+                                            <span class="star" style="color: #ddd;">★</span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <div class="review-comment">
+                                    {{ recensione.commento }}
+                                </div>
+                                <div class="review-actions">
+                                    <button class="review-button" onclick="editReview('{{ recensione.evento.nome }}', {{ recensione.valutazione }}, '{{ recensione.commento|escapejs }}')">Modifica</button>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="empty-state">
+                            Non hai ancora scritto recensioni.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function editReview(eventoNome, valutazione, commento) {
+            // Fill the form with the review data
+            document.getElementById('evento_nome').value = eventoNome;
+            document.getElementById('star' + valutazione).checked = true;
+            document.getElementById('commento').value = commento;
+            
+            // Scroll to the form
+            document.querySelector('.review-section').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

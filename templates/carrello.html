@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Carrello - Event Hub</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            padding: 30px 40px;
+        }
+        h1 {
+            text-align: center;
+            color: #2d6cdf;
+            font-size: 2.7em;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+            text-shadow: 1px 2px 8px #e0eaff;
+        }
+        .carrello-item {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .carrello-item:last-child {
+            border-bottom: none;
+        }
+        .evento-info {
+            flex: 1;
+        }
+        .evento-nome {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #1a3a6b;
+            margin-bottom: 5px;
+        }
+        .evento-dettagli {
+            font-size: 1em;
+            color: #444;
+        }
+        .prezzo-totale {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2d6cdf;
+            text-align: right;
+        }
+        .carrello-totale {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+            text-align: right;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #1a3a6b;
+        }
+        .no-items {
+            text-align: center;
+            color: #888;
+            font-size: 1.2em;
+            margin-top: 60px;
+        }
+        .bottoni {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        .bottone {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            text-align: center;
+        }
+        .continua-shopping {
+            background-color: #f0f0f0;
+            color: #444;
+        }
+        .procedi-checkout {
+            background-color: #2d6cdf;
+            color: white;
+        }
+        .bottone:hover {
+            opacity: 0.9;
+        }
+        .rimuovi-bottone {
+            background-color: #e74c3c;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .rimuovi-bottone:hover {
+            background-color: #c0392b;
+        }
+        .azioni {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Il tuo carrello</h1>
+
+        {% if carrello_items %}
+            {% for cart_item in carrello_items %}
+            <div class="carrello-item">
+                <div class="evento-info">
+                    <div class="evento-nome">{{ cart_item.item.evento.nome }}</div>
+                    <div class="evento-dettagli">
+                        Quantità: {{ cart_item.item.numero_biglietti }}
+                    </div>
+                </div>
+                <div class="azioni">
+                    <div class="prezzo-totale">
+                        €{{ cart_item.item.evento.prezzo|floatformat:2 }} x {{ cart_item.item.numero_biglietti }} = €{{ cart_item.subtotale|floatformat:2 }}
+                    </div>
+                    <form action="{% url 'rimuovi_dal_carrello' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="evento_nome" value="{{ cart_item.item.evento.nome }}">
+                        <button type="submit" class="rimuovi-bottone">Rimuovi</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+
+            <div class="carrello-totale">
+                Totale: €{{ totale|floatformat:2 }}
+            </div>
+
+            <div class="bottoni">
+                <a href="{% url 'eventi' %}" class="bottone continua-shopping">Continua lo shopping</a>
+                <a href="{% url 'checkout' %}" class="bottone procedi-checkout">Procedi al checkout</a>
+            </div>
+        {% else %}
+            <div class="no-items">
+                Il tuo carrello è vuoto. <a href="{% url 'eventi' %}">Vai agli eventi</a>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

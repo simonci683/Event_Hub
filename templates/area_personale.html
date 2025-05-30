@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Area Personale - Event Hub</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            padding: 30px 40px;
+        }
+        h1, h2 {
+            color: #2d6cdf;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.7em;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+            text-shadow: 1px 2px 8px #e0eaff;
+        }
+        h2 {
+            font-size: 1.8em;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0eaff;
+            padding-bottom: 10px;
+        }
+        .welcome-message {
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            color: #555;
+        }
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        .dashboard-card {
+            background: #f9fbff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        .dashboard-card h3 {
+            color: #1a3a6b;
+            margin-top: 0;
+            font-size: 1.4em;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+        .dashboard-card-content {
+            margin-bottom: 15px;
+        }
+        .dashboard-card-footer {
+            text-align: right;
+        }
+        .dashboard-link {
+            display: inline-block;
+            background-color: #2d6cdf;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .dashboard-link:hover {
+            background-color: #1a3a6b;
+        }
+        .item-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .item-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .item-list li:last-child {
+            border-bottom: none;
+        }
+        .item-title {
+            font-weight: bold;
+            color: #1a3a6b;
+        }
+        .item-details {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            background-color: #2d6cdf;
+            padding: 15px 0;
+            margin-bottom: 30px;
+        }
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+        .nav-menu a:hover, .nav-menu a.active {
+            background-color: #1a3a6b;
+        }
+        .empty-state {
+            text-align: center;
+            color: #888;
+            padding: 20px;
+            font-style: italic;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+            color: white;
+        }
+        .status-attivo {
+            background-color: #27ae60;
+        }
+        .status-usato {
+            background-color: #7f8c8d;
+        }
+        .status-cancellato {
+            background-color: #e74c3c;
+        }
+        .status-rimborsato {
+            background-color: #f39c12;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-menu">
+        <a href="{% url 'eventi' %}">Eventi</a>
+        <a href="{% url 'carrello' %}">Carrello</a>
+        <a href="{% url 'area_personale' %}" class="active">Area Personale</a>
+    </div>
+
+    <div class="container">
+        <h1>Area Personale</h1>
+        <div class="welcome-message">
+            Benvenuto, {{ utente.nome }} {{ utente.cognome }}!
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Biglietti -->
+            <div class="dashboard-card">
+                <h3>I tuoi biglietti</h3>
+                <div class="dashboard-card-content">
+                    {% if biglietti_recenti %}
+                        <ul class="item-list">
+                            {% for biglietto in biglietti_recenti %}
+                                <li>
+                                    <div class="item-title">{{ biglietto.evento.nome }}</div>
+                                    <div class="item-details">
+                                        Data: {{ biglietto.evento.data }}<br>
+                                        Orario: {{ biglietto.evento.ora_inizio }} - {{ biglietto.evento.ora_fine }}<br>
+                                        Luogo: {{ biglietto.evento.luogo }}<br>
+                                        Quantità: {{ biglietto.numero_biglietti }}
+                                        <span class="status-badge status-{{ biglietto.stato }}">{{ biglietto.get_stato_display }}</span>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <div class="empty-state">Non hai ancora acquistato biglietti.</div>
+                    {% endif %}
+                </div>
+                <div class="dashboard-card-footer">
+                    <a href="{% url 'biglietti' %}" class="dashboard-link">Vedi tutti</a>
+                </div>
+            </div>
+
+            <!-- Profilo -->
+            <div class="dashboard-card">
+                <h3>Il tuo profilo</h3>
+                <div class="dashboard-card-content">
+                    <div class="item-list">
+                        <div class="item-title">Dati personali</div>
+                        <div class="item-details">
+                            Nome: {{ utente.nome }}<br>
+                            Cognome: {{ utente.cognome }}<br>
+                            Email: {{ utente.email }}<br>
+                            Telefono: {{ utente.telefono|default:"Non specificato" }}
+                        </div>
+                    </div>
+                </div>
+                <div class="dashboard-card-footer">
+                    <a href="{% url 'profilo' %}" class="dashboard-link">Modifica profilo</a>
+                </div>
+            </div>
+
+            <!-- Storico Acquisti -->
+            <div class="dashboard-card">
+                <h3>Storico acquisti</h3>
+                <div class="dashboard-card-content">
+                    {% if biglietti_recenti %}
+                        <ul class="item-list">
+                            {% for biglietto in biglietti_recenti %}
+                                <li>
+                                    <div class="item-title">{{ biglietto.evento.nome }}</div>
+                                    <div class="item-details">
+                                        Data acquisto: {{ biglietto.data_prenotazione }}<br>
+                                        Prezzo: €{{ biglietto.evento.prezzo }} x {{ biglietto.numero_biglietti }}
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <div class="empty-state">Non hai ancora effettuato acquisti.</div>
+                    {% endif %}
+                </div>
+                <div class="dashboard-card-footer">
+                    <a href="{% url 'storico_acquisti' %}" class="dashboard-link">Vedi tutto</a>
+                </div>
+            </div>
+
+            <!-- Recensioni -->
+            <div class="dashboard-card">
+                <h3>Le tue recensioni</h3>
+                <div class="dashboard-card-content">
+                    {% if recensioni_recenti %}
+                        <ul class="item-list">
+                            {% for recensione in recensioni_recenti %}
+                                <li>
+                                    <div class="item-title">{{ recensione.evento.nome }}</div>
+                                    <div class="item-details">
+                                        Valutazione: {{ recensione.valutazione }}/5<br>
+                                        Data: {{ recensione.data_recensione }}
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <div class="empty-state">Non hai ancora scritto recensioni.</div>
+                    {% endif %}
+                </div>
+                <div class="dashboard-card-footer">
+                    <a href="{% url 'recensioni' %}" class="dashboard-link">Gestisci recensioni</a>
+                </div>
+            </div>
+
+            <!-- Eventi Salvati -->
+            <div class="dashboard-card">
+                <h3>Eventi salvati</h3>
+                <div class="dashboard-card-content">
+                    {% if eventi_salvati %}
+                        <ul class="item-list">
+                            {% for evento_salvato in eventi_salvati %}
+                                <li>
+                                    <div class="item-title">{{ evento_salvato.evento.nome }}</div>
+                                    <div class="item-details">
+                                        Data: {{ evento_salvato.evento.data }}<br>
+                                        Luogo: {{ evento_salvato.evento.luogo }}<br>
+                                        Notifiche: {% if evento_salvato.notifiche_attive %}Attive{% else %}Disattivate{% endif %}
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <div class="empty-state">Non hai ancora salvato eventi.</div>
+                    {% endif %}
+                </div>
+                <div class="dashboard-card-footer">
+                    <a href="{% url 'eventi_salvati' %}" class="dashboard-link">Vedi tutti</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>I Tuoi Biglietti - Event Hub</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            padding: 30px 40px;
+        }
+        h1 {
+            text-align: center;
+            color: #2d6cdf;
+            font-size: 2.7em;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+            text-shadow: 1px 2px 8px #e0eaff;
+        }
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            background-color: #2d6cdf;
+            padding: 15px 0;
+            margin-bottom: 30px;
+        }
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+        .nav-menu a:hover, .nav-menu a.active {
+            background-color: #1a3a6b;
+        }
+        .sub-nav {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .sub-nav a {
+            color: #2d6cdf;
+            text-decoration: none;
+            padding: 8px 15px;
+            margin: 0 5px;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+            border: 1px solid #2d6cdf;
+        }
+        .sub-nav a:hover, .sub-nav a.active {
+            background-color: #2d6cdf;
+            color: white;
+        }
+        .ticket-list {
+            margin-top: 30px;
+        }
+        .ticket-card {
+            background: #f9fbff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        .ticket-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+        .ticket-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #1a3a6b;
+        }
+        .ticket-status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: bold;
+            color: white;
+        }
+        .status-attivo {
+            background-color: #27ae60;
+        }
+        .status-usato {
+            background-color: #7f8c8d;
+        }
+        .status-cancellato {
+            background-color: #e74c3c;
+        }
+        .status-rimborsato {
+            background-color: #f39c12;
+        }
+        .ticket-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .detail-group {
+            margin-bottom: 10px;
+        }
+        .detail-label {
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        .detail-value {
+            color: #333;
+        }
+        .ticket-actions {
+            margin-top: 20px;
+            text-align: right;
+            border-top: 1px solid #e0e0e0;
+            padding-top: 15px;
+        }
+        .ticket-button {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-left: 10px;
+            cursor: pointer;
+            border: none;
+        }
+        .button-primary {
+            background-color: #2d6cdf;
+            color: white;
+        }
+        .button-secondary {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        .button-danger {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .ticket-button:hover {
+            opacity: 0.9;
+        }
+        .empty-state {
+            text-align: center;
+            color: #888;
+            padding: 40px 20px;
+            font-style: italic;
+            font-size: 1.2em;
+        }
+        .qr-code {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px dashed #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+        .qr-code img {
+            max-width: 150px;
+            height: auto;
+        }
+        .qr-code-text {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-menu">
+        <a href="{% url 'eventi' %}">Eventi</a>
+        <a href="{% url 'carrello' %}">Carrello</a>
+        <a href="{% url 'area_personale' %}" class="active">Area Personale</a>
+    </div>
+
+    <div class="container">
+        <h1>I Tuoi Biglietti</h1>
+
+        <div class="sub-nav">
+            <a href="{% url 'area_personale' %}">Dashboard</a>
+            <a href="{% url 'biglietti' %}" class="active">Biglietti</a>
+            <a href="{% url 'profilo' %}">Profilo</a>
+            <a href="{% url 'storico_acquisti' %}">Storico Acquisti</a>
+            <a href="{% url 'recensioni' %}">Recensioni</a>
+            <a href="{% url 'eventi_salvati' %}">Eventi Salvati</a>
+        </div>
+
+        <div class="ticket-list">
+            {% if biglietti %}
+                {% for item in biglietti %}
+                    <div class="ticket-card">
+                        <div class="ticket-header">
+                            <div class="ticket-title">{{ item.biglietto.evento.nome }}</div>
+                            <div class="ticket-status status-{{ item.biglietto.stato }}">{{ item.biglietto.get_stato_display }}</div>
+                        </div>
+                        <div class="ticket-details">
+                            <div class="detail-group">
+                                <div class="detail-label">Data Evento</div>
+                                <div class="detail-value">{{ item.biglietto.evento.data }}</div>
+                            </div>
+                            <div class="detail-group">
+                                <div class="detail-label">Orario</div>
+                                <div class="detail-value">{{ item.biglietto.evento.ora_inizio }} - {{ item.biglietto.evento.ora_fine }}</div>
+                            </div>
+                            <div class="detail-group">
+                                <div class="detail-label">Luogo</div>
+                                <div class="detail-value">{{ item.biglietto.evento.luogo }}</div>
+                            </div>
+                            <div class="detail-group">
+                                <div class="detail-label">Numero Biglietti</div>
+                                <div class="detail-value">{{ item.biglietto.numero_biglietti }}</div>
+                            </div>
+                            <div class="detail-group">
+                                <div class="detail-label">Data Acquisto</div>
+                                <div class="detail-value">{{ item.biglietto.data_prenotazione }}</div>
+                            </div>
+                            <div class="detail-group">
+                                <div class="detail-label">Prezzo Totale</div>
+                                <div class="detail-value">€{{ item.biglietto.evento.prezzo|floatformat:2 }} x {{ item.biglietto.numero_biglietti }} = €{{ item.prezzo_totale|floatformat:2 }}</div>
+                            </div>
+                        </div>
+
+                        {% if item.biglietto.stato == 'attivo' %}
+                            <div class="qr-code">
+                                <!-- Simple QR code representation using SVG -->
+                                <svg width="150" height="150" viewBox="0 0 150 150" style="margin: 0 auto; display: block;">
+                                    <rect width="150" height="150" fill="#ffffff" />
+                                    <!-- QR code pattern based on ticket ID -->
+                                    {% with ticket_id=item.biglietto.ticket_id %}
+                                    <g fill="#000000">
+                                        <!-- Border pattern -->
+                                        <rect x="20" y="20" width="110" height="10" />
+                                        <rect x="20" y="20" width="10" height="110" />
+                                        <rect x="120" y="20" width="10" height="110" />
+                                        <rect x="20" y="120" width="110" height="10" />
+
+                                        <!-- Center pattern based on ticket ID -->
+                                        <rect x="50" y="50" width="50" height="50" />
+                                        <rect x="60" y="60" width="30" height="30" fill="#ffffff" />
+
+                                        <!-- Dynamic pattern based on ticket ID -->
+                                        <rect x="40" y="40" width="{{ ticket_id|divisibleby:2|yesno:'10,15' }}" height="10" />
+                                        <rect x="90" y="40" width="{{ ticket_id|divisibleby:3|yesno:'15,10' }}" height="10" />
+                                        <rect x="40" y="90" width="10" height="{{ ticket_id|divisibleby:4|yesno:'15,10' }}" />
+                                        <rect x="90" y="90" width="10" height="{{ ticket_id|divisibleby:5|yesno:'10,15' }}" />
+                                    </g>
+                                    {% endwith %}
+                                </svg>
+                                <div class="qr-code-text">
+                                    Ticket ID: {{ item.biglietto.ticket_id }}<br>
+                                    Mostra questo codice all'ingresso
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <div class="ticket-actions">
+                            {% if item.biglietto.stato == 'usato' %}
+                                <a href="{% url 'recensioni' %}" class="ticket-button button-primary">Lascia una recensione</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    Non hai ancora acquistato biglietti. <a href="{% url 'eventi' %}">Esplora gli eventi disponibili</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

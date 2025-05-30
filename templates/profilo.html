@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Profilo Utente - Event Hub</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            padding: 30px 40px;
+        }
+        h1 {
+            text-align: center;
+            color: #2d6cdf;
+            font-size: 2.7em;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+            text-shadow: 1px 2px 8px #e0eaff;
+        }
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            background-color: #2d6cdf;
+            padding: 15px 0;
+            margin-bottom: 30px;
+        }
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+        .nav-menu a:hover, .nav-menu a.active {
+            background-color: #1a3a6b;
+        }
+        .sub-nav {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .sub-nav a {
+            color: #2d6cdf;
+            text-decoration: none;
+            padding: 8px 15px;
+            margin: 0 5px;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+            border: 1px solid #2d6cdf;
+        }
+        .sub-nav a:hover, .sub-nav a.active {
+            background-color: #2d6cdf;
+            color: white;
+        }
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+        .profile-sidebar {
+            background: #f9fbff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .profile-picture {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .profile-picture img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #2d6cdf;
+        }
+        .profile-picture-placeholder {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: #e0eaff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3em;
+            color: #2d6cdf;
+            margin: 0 auto;
+            border: 3px solid #2d6cdf;
+        }
+        .profile-info {
+            margin-bottom: 20px;
+        }
+        .info-label {
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        .info-value {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .profile-main {
+            background: #f9fbff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .form-section {
+            margin-bottom: 30px;
+        }
+        .form-section h2 {
+            color: #1a3a6b;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+        .form-input:focus {
+            border-color: #2d6cdf;
+            outline: none;
+            box-shadow: 0 0 5px rgba(45,108,223,0.3);
+        }
+        .form-button {
+            background-color: #2d6cdf;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .form-button:hover {
+            background-color: #1a3a6b;
+        }
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-menu">
+        <a href="{% url 'eventi' %}">Eventi</a>
+        <a href="{% url 'carrello' %}">Carrello</a>
+        <a href="{% url 'area_personale' %}" class="active">Area Personale</a>
+    </div>
+
+    <div class="container">
+        <h1>Profilo Utente</h1>
+        
+        <div class="sub-nav">
+            <a href="{% url 'area_personale' %}">Dashboard</a>
+            <a href="{% url 'biglietti' %}">Biglietti</a>
+            <a href="{% url 'profilo' %}" class="active">Profilo</a>
+            <a href="{% url 'storico_acquisti' %}">Storico Acquisti</a>
+            <a href="{% url 'recensioni' %}">Recensioni</a>
+            <a href="{% url 'eventi_salvati' %}">Eventi Salvati</a>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-error{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="profile-grid">
+            <div class="profile-sidebar">
+                <div class="profile-picture">
+                    {% if utente.foto_profilo %}
+                        <img src="{{ utente.foto_profilo.url }}" alt="Foto profilo">
+                    {% else %}
+                        <div class="profile-picture-placeholder">
+                            {{ utente.nome|first }}{{ utente.cognome|first }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="profile-info">
+                    <div class="info-label">Nome</div>
+                    <div class="info-value">{{ utente.nome }} {{ utente.cognome }}</div>
+                    
+                    <div class="info-label">Email</div>
+                    <div class="info-value">{{ utente.email }}</div>
+                    
+                    <div class="info-label">Telefono</div>
+                    <div class="info-value">{{ utente.telefono|default:"Non specificato" }}</div>
+                    
+                    <div class="info-label">Data di nascita</div>
+                    <div class="info-value">{{ utente.data_nascita }}</div>
+                </div>
+            </div>
+            
+            <div class="profile-main">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="form-section">
+                        <h2>Dati Personali</h2>
+                        <div class="form-group">
+                            <label class="form-label" for="nome">Nome</label>
+                            <input type="text" id="nome" name="nome" class="form-input" value="{{ utente.nome }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="cognome">Cognome</label>
+                            <input type="text" id="cognome" name="cognome" class="form-input" value="{{ utente.cognome }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="telefono">Telefono</label>
+                            <input type="tel" id="telefono" name="telefono" class="form-input" value="{{ utente.telefono|default:'' }}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="foto_profilo">Foto Profilo</label>
+                            <input type="file" id="foto_profilo" name="foto_profilo" class="form-input">
+                            <small>Lascia vuoto per mantenere l'immagine attuale</small>
+                        </div>
+                        <button type="submit" class="form-button">Aggiorna Dati</button>
+                    </div>
+                </form>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-section">
+                        <h2>Cambio Password</h2>
+                        <div class="form-group">
+                            <label class="form-label" for="current_password">Password Attuale</label>
+                            <input type="password" id="current_password" name="current_password" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="new_password">Nuova Password</label>
+                            <input type="password" id="new_password" name="new_password" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="confirm_password">Conferma Nuova Password</label>
+                            <input type="password" id="confirm_password" name="confirm_password" class="form-input" required>
+                        </div>
+                        <button type="submit" class="form-button">Cambia Password</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
