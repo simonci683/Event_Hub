@@ -41,7 +41,7 @@ Gli utenti già registrati sono
 Utente:
 ```
 email: simone.somma001@studenti.uniparthenope.it
-passw: Forzanapoli1
+passw: simone
 
 ```
 Organizzatore:
