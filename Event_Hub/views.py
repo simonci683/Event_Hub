@@ -48,8 +48,107 @@ def login(request):
 
     return render(request, 'login.html')
 
+def login_organizzatore(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        # Hash the password for comparison
+        hashed_password = hashlib.md5(password.encode()).hexdigest()
+
+        try:
+            organizzatore = Organizzatore.objects.get(email=email, password=hashed_password)
+            # Set up the organizer session
+            request.session['organizzatore_email'] = organizzatore.email
+            return redirect('principale_organizzatore')
+        except Organizzatore.DoesNotExist:
+            return render(request, 'login_organizzatore.html', {'error': 'Credenziali non valide'})
+
+    return render(request, 'login_organizzatore.html')
+
+def principale_organizzatore(request):
+    # Check if organizer is logged in
+    organizzatore_email = request.session.get('organizzatore_email')
+    if not organizzatore_email:
+        return redirect('login_organizzatore')
+
+    try:
+        organizzatore = Organizzatore.objects.get(email=organizzatore_email)
+        context = {
+            'organizzatore': organizzatore,
+        }
+        return render(request, 'principale_organizzatore.html', context)
+    except Organizzatore.DoesNotExist:
+        # If organizer doesn't exist, clear session and redirect to login
+        request.session.flush()
+        return redirect('login_organizzatore')
+
+def crea_evento(request):
+    # Check if organizer is logged in
+    organizzatore_email = request.session.get('organizzatore_email')
+    if not organizzatore_email:
+        return redirect('login_organizzatore')
+
+    if request.method == 'POST':
+        try:
+            organizzatore = Organizzatore.objects.get(email=organizzatore_email)
+
+            # Get form data
+            nome = request.POST.get('nome')
+            data = request.POST.get('data')
+            ora_inizio = request.POST.get('ora_inizio')
+            ora_fine = request.POST.get('ora_fine')
+            luogo = request.POST.get('luogo')
+            descrizione = request.POST.get('descrizione')
+            biglietti_disponibili = request.POST.get('biglietti_disponibili')
+            prezzo = request.POST.get('prezzo')
+
+            # Validate data
+            if not all([nome, data, ora_inizio, ora_fine, luogo, descrizione, biglietti_disponibili, prezzo]):
+                return render(request, 'principale_organizzatore.html', {
+                    'organizzatore': organizzatore,
+                    'error_message': 'Tutti i campi sono obbligatori.'
+                })
+
+            # Create the event
+            Evento.objects.create(
+                nome=nome,
+                data=data,
+                ora_inizio=ora_inizio,
+                ora_fine=ora_fine,
+                luogo=luogo,
+                descrizione=descrizione,
+                organizzatore=organizzatore,
+                biglietti_disponibili=biglietti_disponibili,
+                prezzo=prezzo
+            )
+
+            return render(request, 'principale_organizzatore.html', {
+                'organizzatore': organizzatore,
+                'success_message': 'Evento creato con successo!'
+            })
+
+        except Organizzatore.DoesNotExist:
+            request.session.flush()
+            return redirect('login_organizzatore')
+        except Exception as e:
+            organizzatore = Organizzatore.objects.get(email=organizzatore_email)
+            return render(request, 'principale_organizzatore.html', {
+                'organizzatore': organizzatore,
+                'error_message': f'Errore durante la creazione dell\'evento: {str(e)}'
+            })
+
+    # If not POST, redirect to the main organizer page
+    return redirect('principale_organizzatore')
+
 def benvenuto(request):
     return render(request, 'Benvenuto.html')
+
+def logout(request):
+    # Clear the user session
+    request.session.flush()
+    # Redirect to the welcome page
+    return redirect('benvenuto')
 
 def lista_eventi(request):
     eventi = Evento.objects.all().order_by('nome')
@@ -195,6 +294,42 @@ def biglietti(request):
         return render(request, 'biglietti.html', context)
     except Utente.DoesNotExist:
         return redirect('login')
+
+def rimborsa_biglietto(request):
+    if request.method == 'POST':
+        ticket_id = request.POST.get('ticket_id')
+        utente_email = request.session.get('utente_email')
+
+        if not utente_email:
+            return redirect('login')
+
+        try:
+            utente = Utente.objects.get(email=utente_email)
+            biglietto = Prenotazione.objects.get(ticket_id=ticket_id, utente=utente)
+
+            # Check if the ticket is active (can only refund active tickets)
+            if biglietto.stato == 'attivo':
+                # Update ticket status to refunded
+                biglietto.stato = 'rimborsato'
+                biglietto.save()
+
+                # Increase available tickets for the event
+                evento = biglietto.evento
+                evento.biglietti_disponibili += biglietto.numero_biglietti
+                evento.save()
+
+                messages.success(request, 'Biglietto rimborsato con successo.')
+            else:
+                messages.error(request, 'Solo i biglietti attivi possono essere rimborsati.')
+
+            return redirect('biglietti')
+        except Utente.DoesNotExist:
+            return redirect('login')
+        except Prenotazione.DoesNotExist:
+            messages.error(request, 'Biglietto non trovato.')
+            return redirect('biglietti')
+
+    return redirect('biglietti')
 
 def profilo(request):
     utente_email = request.session.get('utente_email')

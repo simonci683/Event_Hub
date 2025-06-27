@@ -4,18 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4e40c385-dc8a-4a20-b4fb-b3b4a946f749" name="Changes" comment="terzo commit">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a1f417cb-4f27-400a-bfd9-c9aa47ababcd.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a1f417cb-4f27-400a-bfd9-c9aa47ababcd/storage_v2/_src_/schema/main.uQUzAA.meta" beforeDir="false" />
+    <list default="true" id="4e40c385-dc8a-4a20-b4fb-b3b4a946f749" name="Changes" comment="Add migration files for new fields and create HTML templates for user features">
+      <change afterPath="$PROJECT_DIR$/templates/login_organizzatore.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/principale_organizzatore.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Event_Hub/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Event_Hub/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Event_Hub/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Event_Hub/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event_Hub/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/Event_Hub/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Event_Hub/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Event_Hub/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Event_Hub/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Event_Hub/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Benvenuto.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Benvenuto.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Registrati.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Registrati.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/area_personale.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/area_personale.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/biglietti.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/biglietti.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/eventi.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/eventi.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,6 +68,7 @@
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Ninos/PycharmProjects/Event_Hub&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -76,6 +79,9 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Ninos\PycharmProjects\Event_Hub" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Ninos\PycharmProjects\Event_Hub\Event_Hub" />
       <recent name="C:\Users\Ninos\PycharmProjects\Event_Hub\Event_Hub\migrations" />
@@ -132,7 +138,13 @@
       <workItem from="1747847872884" duration="5846000" />
       <workItem from="1748352141662" duration="9360000" />
       <workItem from="1748441429003" duration="12359000" />
-      <workItem from="1748602602334" duration="8638000" />
+      <workItem from="1748602602334" duration="13479000" />
+      <workItem from="1750509633647" duration="1122000" />
+      <workItem from="1750673544172" duration="2235000" />
+      <workItem from="1750757021083" duration="3578000" />
+      <workItem from="1750776435771" duration="4997000" />
+      <workItem from="1750841245409" duration="6612000" />
+      <workItem from="1751016368029" duration="6413000" />
     </task>
     <task id="LOCAL-00001" summary="primo commit">
       <option name="closed" value="true" />
@@ -158,7 +170,23 @@
       <option name="project" value="LOCAL" />
       <updated>1748441263025</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="terzo commit">
+      <option name="closed" value="true" />
+      <created>1748614967558</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1748614967558</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Add migration files for new fields and create HTML templates for user features">
+      <option name="closed" value="true" />
+      <created>1748615003202</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1748615003202</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -167,6 +195,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="primo commit" />
     <MESSAGE value="terzo commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="terzo commit" />
+    <MESSAGE value="Add migration files for new fields and create HTML templates for user features" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add migration files for new fields and create HTML templates for user features" />
   </component>
 </project>

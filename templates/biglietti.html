@@ -271,6 +271,13 @@
                             {% if item.biglietto.stato == 'usato' %}
                                 <a href="{% url 'recensioni' %}" class="ticket-button button-primary">Lascia una recensione</a>
                             {% endif %}
+                            {% if item.biglietto.stato == 'attivo' %}
+                                <form method="post" action="{% url 'rimborsa_biglietto' %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="ticket_id" value="{{ item.biglietto.ticket_id }}">
+                                    <button type="submit" class="ticket-button button-danger" onclick="return confirm('Sei sicuro di voler richiedere il rimborso per questo biglietto?');">Rimborso</button>
+                                </form>
+                            {% endif %}
                         </div>
                     </div>
                 {% endfor %}

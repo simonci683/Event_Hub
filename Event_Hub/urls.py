@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 from Event_Hub.views import (
     registrati, login, benvenuto, aggiungi_al_carrello, carrello, rimuovi_dal_carrello,
     area_personale, biglietti, profilo, storico_acquisti, recensioni, eventi_salvati, salva_evento,
-    checkout
+    checkout, login_organizzatore, principale_organizzatore, crea_evento, rimborsa_biglietto, logout
 )
 from .views import lista_eventi
 
@@ -47,6 +47,15 @@ urlpatterns = [
     path('area-personale/recensioni/', recensioni, name='recensioni'),
     path('area-personale/eventi-salvati/', eventi_salvati, name='eventi_salvati'),
     path('salva-evento/', salva_evento, name='salva_evento'),
+    path('rimborsa-biglietto/', rimborsa_biglietto, name='rimborsa_biglietto'),
+
+    # Organizzatore URLs
+    path('login-organizzatore/', login_organizzatore, name='login_organizzatore'),
+    path('principale-organizzatore/', principale_organizzatore, name='principale_organizzatore'),
+    path('crea-evento/', crea_evento, name='crea_evento'),
+
+    # Logout URL
+    path('logout/', logout, name='logout'),
 ]
 
 # Serve media files during development
